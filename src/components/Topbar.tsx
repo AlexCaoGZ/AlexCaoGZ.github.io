@@ -56,7 +56,7 @@ export default function Topbar() {
             <span style={{color: 'black'}}>Good Day, {user.firstName} {user.lastName}</span>
             <button 
               onClick={handleLogout}
-              style={{ width: '80px', textAlign: 'center', padding: '16px 0', cursor: 'pointer', borderRadius: '4px', border: 'none', fontWeight: 'bold' }}>
+              style={{ width: '80px', textAlign: 'center', padding: '16px 0', cursor: 'pointer', borderRadius: '20px', border: 'none', fontWeight: 'bold' }}>
               Logout
             </button>
           </>
@@ -64,7 +64,7 @@ export default function Topbar() {
           // UI for not Login-ed
           <button 
             onClick={handleLogin}
-            style={{ width: '80px', textAlign: 'center', padding: '16px 0', cursor: 'pointer', borderRadius: '4px', border: 'none', backgroundColor: '#66ccff', fontWeight: 'bold' }}>
+            style={{ width: '80px', textAlign: 'center', padding: '16px 0', cursor: 'pointer', borderRadius: '20px', border: 'none', backgroundColor: '#66ccff', fontWeight: 'bold' }}>
             Login
           </button>
         )}
