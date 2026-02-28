@@ -1,8 +1,14 @@
+interface PostCardProps {
+    postId: string;
+    authorId: string;
+    title: string;
+    content: string;
+    likes: number;
+    reads: number;
+  }
 
-
-export default function Favorite(){
-
-    return(
+  export default function PostCard({ authorId, title, content, likes, reads }: PostCardProps) {
+    return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <div style={{flex: 1}}> </div>
             <div style={{ 
@@ -17,17 +23,17 @@ export default function Favorite(){
             >
                 
                 <div style={{ fontSize: '0.85rem', color: '#888', marginBottom: '8px' }}>
-                author: abc
+                author: {authorId}
                 </div>
 
 
                 <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'black', marginBottom: '12px' }}>
-                    title
+                    title: {title}
                 </div>
 
 
                 <div style={{ fontSize: '1rem', color: 'black', lineHeight: '1.6', marginBottom: '20px' }}>
-                    content
+                    content: {content}
                 </div>
 
 
@@ -52,15 +58,15 @@ export default function Favorite(){
                         </span>
                     </button>
                     <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        🖒 Likes
+                        🖒 {likes} Likes
                     </span>
                     <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        👁 Reads
+                        👁 {reads} Reads
                     </span>
                 </div>
 
             </div>
             <div style={{flex: 1}}></div>
         </div>
-    )
+    );
 }

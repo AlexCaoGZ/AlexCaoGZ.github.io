@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
-//import Home from './pages/Home';
-import Favorite from './components/Favorite';
+import Home from './pages/Home';
+//import Favorite from './pages/Favorite';
 import './App.css'
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
         
         <Route path="/" element={<Layout />}>
           
-          <Route index element={<Favorite />} /> 
+          <Route index element={<Home />} /> 
           
         </Route>
       </Routes>
