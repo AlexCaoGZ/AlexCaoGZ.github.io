@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../utils/api';
+import { useAuth } from '../utils/Auth';
 
 interface SearchResult {
   id: string;
@@ -9,7 +10,7 @@ interface SearchResult {
 
 export default function SearchBar() {
   
-
+  const { isLogin } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -31,35 +32,45 @@ export default function SearchBar() {
   // open drop down menu
   useEffect(() => {
     if (!searchQuery.trim()) {
-      return;
+     return;
     }
     console.log('now in search bar is:', searchQuery);
     const timer = setTimeout(async() => {
-      if(searchQuery.length >=3 ){
-        const response = await api.get('/forums/search',{
+      if(isLogin){
+        if(searchQuery.length >=3 ){
+          const response = await api.get('/forums/search',{
             params:{q:searchQuery}
-        });
-        console.log('searching:', searchQuery);
-        setResults(response.data);
-        setIsDropdownOpen(true);
+          });
+          console.log('searching:', searchQuery);
+          setResults(response.data);
+          setIsDropdownOpen(true);
+        }
+      }
+      else{
+        alert('Please login.')
       }
     }, 2000);
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
+  return () => clearTimeout(timer);
+  }, [searchQuery, isLogin]);
   
   // submit btn clicked
   const handleSearchSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      const response = await api.get('/forums/search',{
-          params:{q:searchQuery}
-      });
-      if(response.data == ""){
-        alert(searchQuery + 'not found');
+      if(isLogin){
+        const response = await api.get('/forums/search',{
+            params:{q:searchQuery}
+        });
+        if(response.data == ""){
+          alert(searchQuery + 'not found');
+        }
+        else{
+          setIsDropdownOpen(false);
+          //go there
+        }
       }
       else{
-        setIsDropdownOpen(false);
-        //go there
+        alert('Please Login.')
       }
       console.log('submit clicked with:', searchQuery);
     }

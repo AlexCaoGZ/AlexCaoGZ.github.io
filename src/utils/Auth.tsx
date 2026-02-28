@@ -12,16 +12,18 @@ import type { ReactNode } from 'react';
   interface AuthContextType {
     token: string | null;
     user: User | null;
+    isLogin: boolean;
     login: (newToken: string, userData: User) => void;
     logout: () => void;
   }
 
   const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
+  
   export function AuthProvider({ children }: { children: ReactNode }) {
     // State for Token and user
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
+    const isLogin = !!token;
   
     // login method
     const login = (newToken: string, userData: User) => {
@@ -40,7 +42,7 @@ import type { ReactNode } from 'react';
     };
   
     return (
-      <AuthContext.Provider value={{ token, user, login, logout }}>
+      <AuthContext.Provider value={{ token, user, login, logout, isLogin }}>
         {children}
       </AuthContext.Provider>
     );
