@@ -46,21 +46,21 @@ export default function Home() {
       });
 
       setPosts(Posts);
-    }
-    catch(e){
-      console.error(e);
-    }
-  };
+      }
+      catch(e){
+        console.error(e);
+      }
+    };
 
-  if(!(currentQuery == '')){
-    fetchPostsFromBackend();
-  }
-}, [currentQuery]);
+    if(!(currentQuery == '')){
+      fetchPostsFromBackend();
+    }
+  }, [currentQuery]);
 
 
   return (
-    <div style={{ padding: '2rem', margin: '0 auto' }}>
-      <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>
+    <div style={{ padding: '2rem'}}>
+      <h2 style={{ textAlign: 'center'}}>
         {`Forum: "${currentQuery}"`}
       </h2>
           {posts.map((Post) => (

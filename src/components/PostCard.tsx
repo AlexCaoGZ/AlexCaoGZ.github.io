@@ -21,18 +21,13 @@ interface PostCardProps {
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f9f9f9')}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'white')}
             >
-                
-                <div style={{ fontSize: '0.85rem', color: '#888', marginBottom: '8px' }}>
-                author: {authorId}
-                </div>
-
 
                 <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'black', marginBottom: '12px' }}>
                     {title}
                 </div>
 
 
-                <div style={{ fontSize: '1rem', color: 'black', lineHeight: '1.6', marginBottom: '20px' }}>
+                <div style={{ color: 'black', lineHeight: '1.6', marginBottom: '20px' }}>
                     {content}
                 </div>
 
@@ -53,15 +48,18 @@ interface PostCardProps {
                         fontSize: 'inherit',
                         color: 'inherit',
                     }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <span>
                         ☆ Favorite
                         </span>
                     </button>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span >
                         🖒 {likes} Likes
                     </span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <span>
                         👁 {reads} Reads
+                    </span>
+                    <span style={{marginLeft: 'auto'}}>
+                        author: {authorId}
                     </span>
                 </div>
 
