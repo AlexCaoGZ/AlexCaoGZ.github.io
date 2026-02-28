@@ -1,17 +1,11 @@
 import { Link } from 'react-router-dom';
 import api from '../utils/api';
 import { useAuth } from '../utils/Auth';
-import type React from 'react';
-import { useState } from 'react';
+import SearchBar from './SearchBar';
 
 
 export default function Topbar() {
     const { login, logout, user } = useAuth();
-    const [searchQuery, setSearchQuery] = useState('');
-
-    const handleSearch = (e:React.FormEvent) => {
-        e.preventDefault();
-    }
 
     const handleLogin = async () => {
         try{
@@ -51,45 +45,7 @@ export default function Topbar() {
 
       {/* middle */}
       <div style={{ flex: 2, display: 'flex', justifyContent: 'center' }}>
-        <form onSubmit={handleSearch} style={{ display: 'flex', width: '100%', maxWidth: '400px' }}>
-          <span style={{ 
-              width: '10px',
-              padding: '18px 20px', 
-              borderRadius: '20px 0 0 20px',
-              border: 'none', 
-              backgroundColor: '#DCDCDC',
-              outline: 'none',
-              fontSize: '14px'
-            }} >🔍</span>
-          <input 
-            type="text" 
-            placeholder="Search fourm..." 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{ 
-              flex: 2,
-              padding: '18px 26px', 
-              border: 'none', 
-              backgroundColor: '#DCDCDC',
-              outline: 'none',
-              fontSize: '14px'
-            }} 
-          />
-          <button 
-            type="submit" 
-            style={{ 
-              padding: '8px 20px', 
-              borderRadius: '0 20px 20px 0',
-              border: 'none', 
-              backgroundColor: '#66ccff', 
-              color: '#282c34',
-              cursor: 'pointer', 
-              fontWeight: 'bold' 
-            }}
-          >
-            Search
-          </button>
-        </form>
+        <SearchBar/>
       </div>
 
       {/* right side */}
