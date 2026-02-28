@@ -7,7 +7,20 @@ interface PostCardProps {
     reads: number;
   }
 
-  export default function PostCard({ authorId, title, content, likes, reads }: PostCardProps) {
+  export default function PostCard({ authorId, title, content, likes, reads, postId  }: PostCardProps) {
+    const handleFavorite = () =>{
+        const FavoriteList = localStorage.getItem('favorite_list');
+        if(!FavoriteList){
+            const AFavoriteList:string[] = [postId];
+            localStorage.setItem('favorite_list',JSON.stringify(AFavoriteList));
+        }
+        else{
+            const AFavoriteList:string[] = JSON.parse(FavoriteList);
+            AFavoriteList.push(postId);
+            localStorage.setItem('favorite_list',JSON.stringify(AFavoriteList));
+        }
+    };
+
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <div style={{flex: 1}}> </div>
@@ -47,7 +60,8 @@ interface PostCardProps {
                         fontFamily: 'inherit',
                         fontSize: 'inherit',
                         color: 'inherit',
-                    }}>
+                    }}
+                    onClick={handleFavorite}>
                         <span>
                         ☆ Favorite
                         </span>
