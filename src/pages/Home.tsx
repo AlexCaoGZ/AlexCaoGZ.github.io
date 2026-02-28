@@ -29,24 +29,32 @@ export default function Home() {
 
   useEffect(()=>{
   const fetchPostsFromBackend = async () => {
-    const rawJson = await api.get(`/forums/${currentQuery}`,{
-      params:{limit:10}
-    })
-    const rawData = rawJson.data as RawPost[];
-    const Posts:Post[] = rawData.map(item =>{
-      return{
-        postId: item.id,
-        title: item.title,
-        content: item.content,
-        authorId: item.author,
-        likes: item.totalLikes,
-        reads: item.totalRead
-      };
-    });
+    try{
+      const rawJson = await api.get(`/forums/${currentQuery}`,{
+        params:{limit:10}
+      })
+      const rawData = rawJson.data as RawPost[];
+      const Posts:Post[] = rawData.map(item =>{
+        return{
+          postId: item.id,
+          title: item.title,
+          content: item.content,
+          authorId: item.author,
+          likes: item.totalLikes,
+          reads: item.totalRead
+        };
+      });
 
-    setPosts(Posts);
+      setPosts(Posts);
+    }
+    catch(e){
+      console.error(e);
+    }
   };
-  fetchPostsFromBackend();
+
+  if(!(currentQuery == '')){
+    fetchPostsFromBackend();
+  }
 }, [currentQuery]);
 
 
