@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 interface PostCardProps {
     postId: string;
     authorId: string;
@@ -7,17 +9,40 @@ interface PostCardProps {
     reads: number;
   }
 
+
   export default function PostCard({ authorId, title, content, likes, reads, postId  }: PostCardProps) {
+    const [text, setText] = useState(() => {
+        const FavoriteList = localStorage.getItem('favorite_list');
+        if(FavoriteList){
+            const AFavoriteList: string[] = JSON.parse(FavoriteList);
+            if (AFavoriteList.includes(postId)) {
+                return '★ Favorited'; 
+            }
+        }
+        return '☆ Favorite';
+    });
+
     const handleFavorite = () =>{
         const FavoriteList = localStorage.getItem('favorite_list');
         if(!FavoriteList){
             const AFavoriteList:string[] = [postId];
             localStorage.setItem('favorite_list',JSON.stringify(AFavoriteList));
+            setText('★ Favorited');
         }
         else{
+            const isAlreadyFavorited = FavoriteList.includes(postId);
             const AFavoriteList:string[] = JSON.parse(FavoriteList);
-            AFavoriteList.push(postId);
-            localStorage.setItem('favorite_list',JSON.stringify(AFavoriteList));
+
+            if(isAlreadyFavorited){
+                const NewAFavoriteList:string[] = AFavoriteList.filter(AFavoriteList => AFavoriteList != postId);
+                localStorage.setItem('favorite_list',JSON.stringify(NewAFavoriteList));
+                setText('☆ Favorite')
+            }
+            else{
+                AFavoriteList.push(postId);
+                localStorage.setItem('favorite_list',JSON.stringify(AFavoriteList));
+                setText('★ Favorited')
+            }
         }
     };
 
@@ -63,7 +88,7 @@ interface PostCardProps {
                     }}
                     onClick={handleFavorite}>
                         <span>
-                        ☆ Favorite
+                        {text}
                         </span>
                     </button>
                     <span >

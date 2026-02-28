@@ -38,7 +38,7 @@ export default function Topbar() {
     }}>
       {/* lift side */}
       <div style={{ flex : 1 }}>
-        <Link to="/" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'black', textDecoration: 'none' }}>
+        <Link to="/Favorite" style={{ fontWeight: 'bold', fontSize: '2rem', color: 'black', textDecoration: 'none' }}>
             zcao3138
         </Link>
       </div>
