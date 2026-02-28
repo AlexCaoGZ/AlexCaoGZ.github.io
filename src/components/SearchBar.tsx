@@ -28,34 +28,45 @@ export default function SearchBar() {
     };
   }, [isDropdownOpen]);
 
-
+  // open drop down menu
   useEffect(() => {
     if (!searchQuery.trim()) {
       return;
     }
-
+    console.log('now in search bar is:', searchQuery);
     const timer = setTimeout(async() => {
-      console.log('now in search bar is:', searchQuery);
-      const response = await api.post('/forums/search',{
-            
-      })
-
-      setResults(response.data);
-      setIsDropdownOpen(true);
-    }, 500);
-
+      if(searchQuery.length >=3 ){
+        const response = await api.get('/forums/search',{
+            params:{q:searchQuery}
+        });
+        console.log('searching:', searchQuery);
+        setResults(response.data);
+        setIsDropdownOpen(true);
+      }
+    }, 2000);
     return () => clearTimeout(timer);
   }, [searchQuery]);
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
+  
+  // submit btn clicked
+  const handleSearchSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      setIsDropdownOpen(false);
+      const response = await api.get('/forums/search',{
+          params:{q:searchQuery}
+      });
+      if(response.data == ""){
+        alert(searchQuery + 'not found');
+      }
+      else{
+        setIsDropdownOpen(false);
+        //go there
+      }
       console.log('submit clicked with:', searchQuery);
     }
   };
 
-  const handleSelectResult = () => {
+  const handleSelectResult = (item: SearchResult) => {
+    setSearchQuery(item.slug);
     setIsDropdownOpen(false);
   };
 
@@ -124,8 +135,8 @@ export default function SearchBar() {
           {results.map((item) => (
             <li 
               key={item.id} 
-              onClick={() => handleSelectResult()}
-              style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '1rem', borderBottom: '1px solid #f0f0f0' }}
+              onClick={() => handleSelectResult(item)}
+              style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '1rem' }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f9f9f9')}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
             >
