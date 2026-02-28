@@ -1,19 +1,28 @@
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import api from '../utils/api';
+import { useAuth } from '../utils/Auth';
 
-interface User {
-    name: string;
-  }
 
 export default function Topbar() {
-    const [user, setUser] = useState<User | null>(null);
-    const handleLogin = () => {
-        setUser({
-          name: 'zcao'
-        });
+    const { login, logout, user } = useAuth();
+
+    const handleLogin = async () => {
+        try{
+            const response = await api.post('/auth/login',{
+                username: "zcao3138",
+                password: "8723138"
+            })
+
+            const { access_token, user } = response.data;
+            login(access_token, user);
+        }
+        catch(error)
+        {
+            console.error(error);
+        }
       };
     const handleLogout = () => {
-        setUser(null); // remove user info
+        logout();
     };
 
   return (
@@ -35,7 +44,7 @@ export default function Topbar() {
         {user ? (
           // UI for Login-ed
           <>
-            <span>Good Day, {user.name}</span>
+            <span>Good Day, {user.firstName} {user.lastName}</span>
             <Link to="/profile" style={{ color: '#61dafb', textDecoration: 'none' }}>Profile</Link>
             <button 
               onClick={handleLogout}
