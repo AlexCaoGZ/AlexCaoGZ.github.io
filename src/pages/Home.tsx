@@ -1,71 +1,66 @@
-import { useState, useEffect} from 'react';
-import PostCard from '../components/PostCard';
-import { useSearchParams } from 'react-router-dom';
-import api from '../utils/api';
+import { useState, useEffect } from "react";
+import PostCard from "../components/PostCard";
+import { useSearchParams } from "react-router-dom";
+import api from "../utils/api";
 
 interface Post {
-    postId: string;
-    authorId: string;
-    title: string;
-    content: string;
-    likes: number;
-    reads: number;
-  }
+  postId: string;
+  authorId: string;
+  title: string;
+  content: string;
+  likes: number;
+  reads: number;
+}
 
-  interface RawPost {
-    id: string;
-    author: string;
-    title: string;
-    content: string;
-    totalLikes: number;
-    totalRead: number;
-  }
+interface RawPost {
+  id: string;
+  author: string;
+  title: string;
+  content: string;
+  totalLikes: number;
+  totalRead: number;
+}
 
 export default function Home() {
-
   const [searchParams] = useSearchParams();
-  const currentQuery = searchParams.get('q') || '';
-  const [posts, setPosts] = useState<Post[]>([]); 
+  const currentQuery = searchParams.get("q") || "";
+  const [posts, setPosts] = useState<Post[]>([]);
 
-  useEffect(()=>{
-  const fetchPostsFromBackend = async () => {
-    try{
-      const rawJson = await api.get(`/forums/${currentQuery}`,{
-        params:{limit:10}
-      })
-      const rawData = rawJson.data as RawPost[];
-      const Posts:Post[] = rawData.map(item =>{
-        return{
-          postId: item.id,
-          title: item.title,
-          content: item.content,
-          authorId: item.author,
-          likes: item.totalLikes,
-          reads: item.totalRead
-        };
-      });
+  useEffect(() => {
+    const fetchPostsFromBackend = async () => {
+      try {
+        const rawJson = await api.get(`/forums/${currentQuery}`, {
+          params: { limit: 10 },
+        });
+        const rawData = rawJson.data as RawPost[];
+        const Posts: Post[] = rawData.map((item) => {
+          return {
+            postId: item.id,
+            title: item.title,
+            content: item.content,
+            authorId: item.author,
+            likes: item.totalLikes,
+            reads: item.totalRead,
+          };
+        });
 
-      setPosts(Posts);
-      }
-      catch(e){
+        setPosts(Posts);
+      } catch (e) {
         console.error(e);
       }
     };
 
-    if(!(currentQuery == '')){
+    if (!(currentQuery == "")) {
       fetchPostsFromBackend();
     }
   }, [currentQuery]);
 
-
   return (
-    <div style={{ padding: '2rem'}}>
-      <h2 style={{ textAlign: 'center'}}>
-        {`Forum: "${currentQuery}"`}
-      </h2>
-          {posts.map((Post) => (
-            <PostCard key={Post.postId} {...Post} />
-          ))}
+    <div style={{ padding: "2rem" }}>
+      <h2 style={{ textAlign: "center" }}>{`Forum: "${currentQuery}"`}</h2>
+      {posts.map((Post) => (
+        <PostCard key={Post.postId} {...Post} />
+      ))}
     </div>
   );
 }
