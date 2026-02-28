@@ -28,12 +28,12 @@ interface PostCardProps {
 
 
                 <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'black', marginBottom: '12px' }}>
-                    title: {title}
+                    {title}
                 </div>
 
 
                 <div style={{ fontSize: '1rem', color: 'black', lineHeight: '1.6', marginBottom: '20px' }}>
-                    content: {content}
+                    {content}
                 </div>
 
 

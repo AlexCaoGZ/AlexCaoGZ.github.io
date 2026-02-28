@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../utils/api';
 import { useAuth } from '../utils/Auth';
+import { useNavigate } from 'react-router-dom';
 
 interface SearchResult {
   id: string;
@@ -9,7 +10,8 @@ interface SearchResult {
 }
 
 export default function SearchBar() {
-  
+
+  const navigate = useNavigate();
   const { isLogin } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -51,7 +53,7 @@ export default function SearchBar() {
       }
     }, 2000);
   return () => clearTimeout(timer);
-  }, [searchQuery, isLogin]);
+  }, [searchQuery, isLogin, navigate]);
   
   // submit btn clicked
   const handleSearchSubmit = async(e: React.FormEvent) => {
@@ -66,7 +68,7 @@ export default function SearchBar() {
         }
         else{
           setIsDropdownOpen(false);
-          //go there
+          navigate(`/?q=${searchQuery.trim()}`);
         }
       }
       else{
@@ -78,6 +80,7 @@ export default function SearchBar() {
 
   const handleSelectResult = (item: SearchResult) => {
     setSearchQuery(item.slug);
+    navigate(`/?q=${item.slug}`);
     setIsDropdownOpen(false);
   };
 
