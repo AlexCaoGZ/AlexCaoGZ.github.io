@@ -24,7 +24,7 @@ interface Post {
 export default function Home() {
 
   const [searchParams] = useSearchParams();
-  const currentQuery = searchParams.get('q');
+  const currentQuery = searchParams.get('q') || '';
   const [posts, setPosts] = useState<Post[]>([]); 
 
   useEffect(()=>{
@@ -47,7 +47,7 @@ export default function Home() {
     setPosts(Posts);
   };
   fetchPostsFromBackend();
-}, [currentQuery, posts]);
+}, [currentQuery]);
 
 
   return (
