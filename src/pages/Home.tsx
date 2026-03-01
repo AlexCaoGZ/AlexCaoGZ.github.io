@@ -30,7 +30,7 @@ export default function Home() {
     const fetchPostsFromBackend = async () => {
       try {
         const rawJson = await api.get(`/forums/${currentQuery}`, {
-          params: { limit: 10 },
+          params: { limit: 30 },
         });
         const rawData = rawJson.data as RawPost[];
         const Posts: Post[] = rawData.map((item) => {

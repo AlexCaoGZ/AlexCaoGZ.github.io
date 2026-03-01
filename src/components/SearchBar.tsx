@@ -53,7 +53,7 @@ export default function SearchBar() {
       } else {
         alert("Please login.");
       }
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [searchQuery, isLogin, navigate]);
 
