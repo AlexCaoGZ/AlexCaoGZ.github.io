@@ -21,8 +21,14 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   // State for Token and user
-  const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem("access_token"),
+  );
+
+  const [user, setUser] = useState<User | null>(() => {
+    const savedUser = localStorage.getItem("user_info");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const isLogin = !!token;
 
   // login method
